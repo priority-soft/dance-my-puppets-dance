@@ -2,19 +2,24 @@
   "name": "dancemypuppetsdance",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "main": "chatgpt.js",
   "scripts": {
-    "start": "node index"
+    "start": "node chatgpt.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "bubasara",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.3.1",
     "node-cron": "^3.0.2",
+    "openai": "^4.0.0",
     "puppeteer": "^21.3.8",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-adblocker": "^2.13.6",
     "puppeteer-extra-plugin-recaptcha": "^3.6.8",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "readline-sync": "^1.4.10"
   }
 }
