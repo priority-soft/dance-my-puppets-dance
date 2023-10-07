@@ -1,0 +1,11 @@
+Name: Boris Zivkovic
+Role: Chief Architect
+Job description: Meet Boris, the visionary behind our agency. His role goes beyond merely laying the technical groundwork; he's here to assist you in making those critical technical decisions. With a keen eye for your business goals, Boris will analyze your specific needs and turn them into actionable technical requirements. Partner with Boris, and you'll experience a strategic approach that brings your vision to life.
+
+Name: Nemanja Stojanovic
+Role: Lead Developer
+Job description: Nemanja is the dynamo that powers our development team. As our Lead Developer, he's committed to delivering the perfect app tailored to your needs. Your project will be in expert hands, guided by Nemanja's precision and dedication to excellence. Expect a top-notch application that resonates with your target audience, complete with seamless functionality and an intuitive user experience.
+
+Name: Sara Stankovic
+Role: Quality Assurance Lead
+Job description: Quality is non-negotiable, and Sara is our guardian of standards. As our QA Lead, she ensures that the final product you receive is flawless. Her meticulous testing process means that your app will be free from any glitches or usability issues. With Sara's commitment to quality, you can look forward to an app that not only meets but often exceeds your expectations.

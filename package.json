@@ -12,9 +12,13 @@
   "license": "ISC",
   "dependencies": {
     "colors": "^1.4.0",
+    "csv-writer": "^1.6.0",
+    "docx": "^8.2.3",
     "dotenv": "^16.3.1",
+    "excel4node": "^1.8.2",
     "node-cron": "^3.0.2",
     "openai": "^4.0.0",
+    "pdf-lib": "^1.17.1",
     "puppeteer": "^21.3.8",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-adblocker": "^2.13.6",
