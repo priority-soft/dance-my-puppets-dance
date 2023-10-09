@@ -25,6 +25,7 @@
     "puppeteer-extra-plugin-adblocker": "^2.13.6",
     "puppeteer-extra-plugin-recaptcha": "^3.6.8",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "puppeteer-with-fingerprints": "^1.4.2",
     "readline-sync": "^1.4.10",
     "xlsx": "^0.18.5"
   }
