@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import puppeteer from 'puppeteer';
 import createCsvWriter from 'csv-writer';
 import { Document, Packer, Paragraph, TextRun, AlignmentType } from 'docx';
+import { PDFDocument, rgb } from 'pdf-lib';
 
 async function run() {
     const browser = await puppeteer.launch({
@@ -120,6 +121,95 @@ async function run() {
     await fs.writeFile("testimonials.docx", buffer);
     // end of word
 
+    // pdf
+    // screenshot of a page
+    await page.pdf({ path: 'screenshotPdf.pdf', format: 'A4' });
+
+    // data scraping
+    const ourServices = await page.evaluate(() => {
+        return Array.from(document.querySelectorAll(".service")).map(service => {
+            const heading = service.querySelector("h1.heading").textContent;
+            const subheading = service.querySelector("h3 strong").textContent;
+            const description = service.querySelector("div > div:last-child").textContent;
+            return { heading, subheading, description };
+        });
+    });
+
+    // pdf from scraped data
+    async function createPDF(ourServices) {
+        const pdfDoc = await PDFDocument.create();
+        const page = pdfDoc.addPage();
+        const { width, height } = page.getSize();
+
+        const padding = 50;
+
+        const maxWidth = width - 2 * padding;
+
+        let y = height - padding;
+
+        for (const service of ourServices) {
+            const descriptionLines = insertLineBreaks(service.description);
+
+            page.drawText(service.heading, {
+                x: padding,
+                y: y,
+                size: 20,
+                color: rgb(0, 0, 0.3)
+            });
+            y -= 30;
+
+            page.drawText(service.subheading, {
+                x: padding,
+                y: y,
+                size: 16,
+                color: rgb(0.5, 0.5, 0.6)
+            });
+            y -= 25;
+
+            // space for all lines in description
+            if (y - (descriptionLines.length * 14) < padding) {
+                // new page if the text does not fit vertically
+                const page = pdfDoc.addPage();
+                y = height - padding;
+            }
+
+            for (const line of descriptionLines) {
+                page.drawText(line, {
+                    x: padding,
+                    y: y,
+                    size: 12,
+                    color: rgb(0.3, 0.1, 0.2),
+                    maxWidth: maxWidth
+                });
+                y -= 14;
+            }
+
+            // space between different services
+            y -= 40;
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        await fs.writeFile('ourServices.pdf', pdfBytes);
+    }
+
+    function insertLineBreaks(str, maxLen = 80) {
+        const words = str.split(' ');
+        let lines = [];
+        let currentLine = words[0];
+
+        for (let i = 1; i < words.length; i++) {
+            if (currentLine.length + words[i].length + 1 < maxLen) {
+                currentLine += ' ' + words[i];
+            } else {
+                lines.push(currentLine);
+                currentLine = words[i];
+            }
+        }
+        lines.push(currentLine);
+        return lines;
+    }
+    await createPDF(ourServices);
+    // end of pdf
 
 
     await browser.close();
