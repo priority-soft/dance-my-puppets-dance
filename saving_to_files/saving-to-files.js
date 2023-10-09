@@ -211,6 +211,19 @@ async function run() {
     await createPDF(ourServices);
     // end of pdf
 
+    // json
+    async function saveDataAsJson(data, filename) {
+        try {
+            await fs.writeFile(filename, JSON.stringify(data, null, 2)); // 4 spaces of indentation
+            console.log(`Data saved to ${filename}`);
+        } catch (err) {
+            console.error('Error saving data:', err);
+        }
+    }
+
+    await saveDataAsJson(ourServices, 'ourServices.json');
+    // end of json
+
 
     await browser.close();
 }
