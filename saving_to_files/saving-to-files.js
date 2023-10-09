@@ -3,6 +3,7 @@ import puppeteer from 'puppeteer';
 import createCsvWriter from 'csv-writer';
 import { Document, Packer, Paragraph, TextRun, AlignmentType } from 'docx';
 import { PDFDocument, rgb } from 'pdf-lib';
+import xlsx from 'xlsx';
 
 async function run() {
     const browser = await puppeteer.launch({
@@ -126,7 +127,7 @@ async function run() {
     await page.pdf({ path: 'screenshotPdf.pdf', format: 'A4' });
 
     // data scraping
-    const ourServices = await page.evaluate(() => {
+    let ourServices = await page.evaluate(() => {
         return Array.from(document.querySelectorAll(".service")).map(service => {
             const heading = service.querySelector("h1.heading").textContent;
             const subheading = service.querySelector("h3 strong").textContent;
@@ -224,6 +225,25 @@ async function run() {
     await saveDataAsJson(ourServices, 'ourServices.json');
     // end of json
 
+    // excel
+    async function saveDataAsExcel(data, filename) {
+        try {
+            const ws = xlsx.utils.json_to_sheet(data);
+
+            // create a new workbook and add a worksheet to it
+            const wb = xlsx.utils.book_new();
+            xlsx.utils.book_append_sheet(wb, ws, "Our Services");
+
+            // write workbook to disk
+            xlsx.writeFile(wb, filename);
+            console.log(`Data saved to ${filename}`);
+        } catch (err) {
+            console.error('Error saving data:', err);
+        }
+    }
+
+    await saveDataAsExcel(ourServices, 'ourServices.xlsx');
+    // end of excel
 
     await browser.close();
 }
